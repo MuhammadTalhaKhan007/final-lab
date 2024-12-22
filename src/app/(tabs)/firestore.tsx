@@ -2,19 +2,17 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/src/components/EditScreenInfo";
 import { Text, View } from "@/src/components/Themed";
-import { AppContext } from "../../ContextAPI/appContext";
-import { useContext } from "react";
-export default function TabOneScreen() {
-  const { deviceId } = useContext(AppContext);
+
+export default function FireStoreScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Authentication</Text>
+      <Text style={styles.title}>FireStore</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <EditScreenInfo path="app/(tabs)/two.tsx" />
     </View>
   );
 }

@@ -1,11 +1,18 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
-
+import { Pressable, Platform } from "react-native";
+import { FontAwesomeIcon as RNFontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { FontAwesomeIcon as WebFontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/src/components/useColorScheme";
 import { useClientOnlyValue } from "@/src/components/useClientOnlyValue";
+import {
+  faBroadcastTower,
+  faFire,
+  faShield,
+  faDatabase,
+} from "@fortawesome/free-solid-svg-icons";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -17,6 +24,8 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const FontAwesomeIcon =
+    Platform.OS === "web" ? WebFontAwesomeIcon : RNFontAwesomeIcon;
 
   return (
     <Tabs
@@ -30,8 +39,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Authentication",
+          tabBarIcon: ({ color }) => (
+            <FontAwesomeIcon icon={faShield} style={{ fontSize: 25, color }} />
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -49,10 +60,36 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="realtime"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Realtime",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesomeIcon
+              icon={faBroadcastTower}
+              style={{ fontSize: 25, color }}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="firestore"
+        options={{
+          title: "Firestore",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesomeIcon icon={faFire} style={{ fontSize: 25, color }} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="storage"
+        options={{
+          title: "Firestorage",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesomeIcon
+              icon={faDatabase}
+              style={{ fontSize: 25, color }}
+            />
+          ),
         }}
       />
     </Tabs>
