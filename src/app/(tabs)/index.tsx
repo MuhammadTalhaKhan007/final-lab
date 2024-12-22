@@ -2,8 +2,10 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "@/src/components/EditScreenInfo";
 import { Text, View } from "@/src/components/Themed";
-
+import { AppContext } from "../../ContextAPI/appContext";
+import { useContext } from "react";
 export default function TabOneScreen() {
+  const { deviceId } = useContext(AppContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
