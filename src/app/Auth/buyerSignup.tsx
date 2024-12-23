@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -146,7 +147,7 @@ export default function BuyerSignupPage() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Buyer Registration</Text>
 
       {/* Name Input */}
@@ -281,7 +282,7 @@ export default function BuyerSignupPage() {
       </View>
       <Toast />
       <CustomLoader loading={load} />
-    </View>
+    </ScrollView>
   );
 }
 
