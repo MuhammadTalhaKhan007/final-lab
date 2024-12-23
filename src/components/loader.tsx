@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(114, 111, 111, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.01))",
     zIndex: 1000,
   },
   loaderImage: {

@@ -1,0 +1,15 @@
+ screenOptions={{
+      tabBarPosition: 'left',
+      tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+      tabBarStyle: {
+        width: 80,
+        height: '100%',
+        backgroundColor: Colors[colorScheme ?? "light"].background,
+      },
+      tabBarItemStyle: {
+        height: 60,
+        marginVertical: 5,
+      },
+   
+      headerShown: false,
+    }}
