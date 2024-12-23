@@ -1,37 +1,13 @@
-import { StyleSheet } from "react-native";
+import { Redirect } from "expo-router";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-import EditScreenInfo from "@/src/components/EditScreenInfo";
-import { Text, View } from "@/src/components/Themed";
-import { AppContext } from "../../ContextAPI/appContext";
-import { useContext } from "react";
-export default function TabOneScreen() {
-  const { deviceId } = useContext(AppContext);
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Authentication</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
-  );
-}
+const Index = () => {
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerShown: false });
+  }, [navigation]);
+  return <Redirect href="/Auth/buyerSignup" />;
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+export default Index;
