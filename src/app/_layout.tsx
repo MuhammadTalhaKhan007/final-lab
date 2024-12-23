@@ -71,6 +71,8 @@ function RootLayoutNav() {
             name="StartScreen/getStarted"
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="Buyer/home" options={{ headerShown: false }} />
+          <Stack.Screen name="Seller/home" options={{ headerShown: false }} />
         </Stack>
       </AppProvider>
     </ThemeProvider>
