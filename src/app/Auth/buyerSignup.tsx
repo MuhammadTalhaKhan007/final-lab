@@ -124,6 +124,9 @@ export default function BuyerSignupPage() {
           type: "success",
           text1: "Signed Up Successfully!",
           visibilityTime: 1000,
+          onHide: () => {
+            navigation.navigate("Auth/login");
+          },
         });
       } else {
         setLoad(false);
@@ -131,6 +134,9 @@ export default function BuyerSignupPage() {
           type: "error",
           text1: "Something Went Wrong!",
           visibilityTime: 3000,
+          onHide: () => {
+            navigation.navigate("Auth/login");
+          },
         });
       }
     } catch (error) {
@@ -256,13 +262,23 @@ export default function BuyerSignupPage() {
       </View>
 
       {/* Register Button */}
-      <Button title="Register" onPress={handleRegister} />
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <View style={styles.imageBackground}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.linkContainer}
         onPress={() => navigation.navigate("Auth/sellerSignup")}
       >
         <Text style={styles.linkText}>Sign-up as a seller</Text>
       </TouchableOpacity>
+      <View style={styles.linkContainer}>
+        <Text style={styles.LoginLinkText}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Auth/login")}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableOpacity>
+      </View>
       <Toast />
       <CustomLoader loading={load} />
     </View>
@@ -352,5 +368,36 @@ const styles = StyleSheet.create({
     color: "#61a1c7",
     fontSize: 16,
     textAlign: "center",
+  },
+  LoginLinkText: {
+    fontSize: 16,
+    color: "#666",
+  },
+  loginText: {
+    fontSize: 16,
+    color: "#61a1c7",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+  button: {
+    width: "100%",
+    height: 60,
+    marginBottom: 15,
+  },
+  imageBackground: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+    overflow: "hidden",
+    color: "#61a1c7",
+    backgroundColor: "#61a1c7",
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: "900",
+    color: "#fff",
   },
 });
