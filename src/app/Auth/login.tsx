@@ -40,6 +40,7 @@ const LoginPage = () => {
         if (result.userType === "buyer") {
           await AsyncStorage.setItem("token", result.token);
           await AsyncStorage.setItem("buyerEmail", result.user.email);
+          await AsyncStorage.setItem("buyerName", result.user.name);
           Toast.show({
             type: "success",
             text1: "Logged In Successfully!",
@@ -51,6 +52,7 @@ const LoginPage = () => {
         } else if (result.userType === "seller") {
           await AsyncStorage.setItem("token", result.token);
           await AsyncStorage.setItem("sellerEmail", result.user.email);
+          await AsyncStorage.setItem("sellerName", result.user.name);
           Toast.show({
             type: "success",
             text1: "Logged In Successfully!",
