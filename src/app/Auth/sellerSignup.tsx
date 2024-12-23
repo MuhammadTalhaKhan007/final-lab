@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
-import useBuyerSignup from "@/src/components/APIs/Auth/useBuyerSignup";
+import useSellerSignup from "@/src/components/APIs/Auth/useSellerSignup";
 import Toast from "react-native-toast-message";
 import CustomLoader from "@/src/components/loader";
 
@@ -22,68 +22,31 @@ export default function SellerSignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [paymentDetails, setPaymentDetails] = useState("");
-  const [preferences, setPreferences] = useState("");
+  const [businessType, setBusinessType] = useState("");
   const [emailValid, setEmailValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiry, setExpiry] = useState<string>(null);
-  const [cvc, setCvc] = useState("");
   const navigation = useNavigation<NavigationProp<any>>();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [load, setLoad] = useState(false);
-  const { registerBuyer, loading } = useBuyerSignup();
+  const [bankAccount, setBankAccount] = useState("");
+  const [accountHolderName, setAccountHolderName] = useState("");
+  const [bankName, setBankName] = useState("");
+  const { registerSeller, loading } = useSellerSignup();
 
   const validateEmail = (email) => {
     const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     return emailRegex.test(email);
   };
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-  const formatExpiryDate = (date: Date) => {
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${month}/${year}`;
-  };
-  const handleConfirmExpiry = (date: Date) => {
-    const currentDate = new Date();
-
-    if (
-      date.getFullYear() < currentDate.getFullYear() ||
-      (date.getFullYear() === currentDate.getFullYear() &&
-        date.getMonth() < currentDate.getMonth())
-    ) {
-      Alert.alert(
-        "Invalid Expiry Date",
-        "The expiry date cannot be in the past."
-      );
-      hideDatePicker();
-      return;
-    }
-
-    // If valid, format and set the expiry date
-    const formattedExpiry = formatExpiryDate(date);
-    setExpiry(formattedExpiry);
-    hideDatePicker();
-  };
   const clearFields = () => {
     setName("");
     setEmail("");
     setPassword("");
     setPhone("");
-    setAddress("");
-    setCardNumber("");
-    setExpiry(null);
-    setCvc("");
-    setPreferences("");
+    setBankAccount("");
+    setBankName(null);
+    setAccountHolderName("");
+    setBusinessType("");
   };
 
   const handleRegister = async () => {
@@ -92,11 +55,10 @@ export default function SellerSignupPage() {
       !email.trim() ||
       !password.trim ||
       !phone.trim() ||
-      !address.trim() ||
-      !cardNumber.trim() ||
-      !expiry.trim() ||
-      !cvc.trim() ||
-      !preferences.trim()
+      !bankName.trim() ||
+      !bankAccount.trim() ||
+      !accountHolderName.trim() ||
+      !businessType.trim()
     ) {
       Toast.show({
         type: "error",
@@ -107,15 +69,15 @@ export default function SellerSignupPage() {
     }
     try {
       setLoad(true);
-      const result = await registerBuyer(
+      const result = await registerSeller(
         name,
         email,
         password,
-        address,
         phone,
-        cardNumber,
-        expiry,
-        preferences
+        bankName,
+        accountHolderName,
+        bankAccount,
+        businessType
       );
 
       if (result.success) {
@@ -123,7 +85,7 @@ export default function SellerSignupPage() {
         clearFields();
         Toast.show({
           type: "success",
-          text1: "Signed Up Successfully!",
+          text1: "Seller Signed Up Successfully!",
           visibilityTime: 1000,
           onHide: () => {
             navigation.navigate("Auth/login");
@@ -135,9 +97,6 @@ export default function SellerSignupPage() {
           type: "error",
           text1: "Something Went Wrong!",
           visibilityTime: 3000,
-          onHide: () => {
-            navigation.navigate("Auth/login");
-          },
         });
       }
     } catch (error) {
@@ -205,60 +164,43 @@ export default function SellerSignupPage() {
         keyboardType="phone-pad"
       />
 
-      {/* Address Input */}
+      {/* Bank Name */}
       <TextInput
         style={styles.input}
-        placeholder="Address"
-        value={address}
-        onChangeText={setAddress}
+        placeholder="Bank Name"
+        value={bankName}
+        onChangeText={setBankName}
       />
-
-      {/* Payment Details Input */}
-      {/* Card Number Input */}
+      {/* Account Holder Name */}
       <TextInput
         style={styles.input}
-        placeholder="Card Number"
-        value={cardNumber}
-        onChangeText={setCardNumber}
+        placeholder="Account Holder Name"
+        value={accountHolderName}
+        onChangeText={setAccountHolderName}
+      />
+      {/* Bank Account */}
+      <TextInput
+        style={styles.input}
+        placeholder="Bank Account"
+        value={bankAccount}
+        onChangeText={setBankAccount}
         keyboardType="number-pad"
-        maxLength={16} // For card numbers like Visa/Mastercard
+        maxLength={16}
       />
-
-      {/* Expiry Input */}
-      <Text
-        style={[styles.input, styles.datePickerInput]}
-        onPress={showDatePicker}
-      >
-        {expiry ? expiry : "Expiry (MM/YYYY)"}
-      </Text>
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirmExpiry}
-        onCancel={hideDatePicker}
-      />
-
-      {/* CVC Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="CVC"
-        value={cvc}
-        onChangeText={setCvc}
-        keyboardType="number-pad"
-        maxLength={3} // Standard CVC length
-      />
-
-      {/* Preferences Input */}
+      {/* Business Type Input */}
       <View style={styles.pickerContainer}>
         <Picker
-          selectedValue={preferences}
-          onValueChange={(itemValue) => setPreferences(itemValue)}
+          selectedValue={businessType}
+          onValueChange={(itemValue) => setBusinessType(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="Select Preferences" value="" />
-          <Picker.Item label="Clothes" value="Clothes" />
-          <Picker.Item label="Shoes" value="Shoes" />
-          <Picker.Item label="Cutlery" value="Cutlery" />
+          <Picker.Item label="Select Business Type" value="" />
+          <Picker.Item label="Individual" value="Individual" />
+          <Picker.Item label="Company" value="Company" />
+          <Picker.Item label="Freelancer" value="Freelancer" />
+          <Picker.Item label="Startup" value="Startup" />
+          <Picker.Item label="Retailer" value="Retailer" />
+          <Picker.Item label="Wholesaler" value="Wholesaler" />
         </Picker>
       </View>
 

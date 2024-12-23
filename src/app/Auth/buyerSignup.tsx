@@ -123,7 +123,7 @@ export default function BuyerSignupPage() {
         clearFields();
         Toast.show({
           type: "success",
-          text1: "Signed Up Successfully!",
+          text1: "Buyer Signed Up Successfully!",
           visibilityTime: 1000,
           onHide: () => {
             navigation.navigate("Auth/login");
@@ -135,9 +135,6 @@ export default function BuyerSignupPage() {
           type: "error",
           text1: "Something Went Wrong!",
           visibilityTime: 3000,
-          onHide: () => {
-            navigation.navigate("Auth/login");
-          },
         });
       }
     } catch (error) {
