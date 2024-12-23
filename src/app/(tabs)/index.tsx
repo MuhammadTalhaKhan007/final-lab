@@ -7,7 +7,7 @@ const Index = () => {
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
-  return <Redirect href="/Auth/buyerSignup" />;
+  return <Redirect href="/StartScreen/getStarted" />;
 };
 
 export default Index;

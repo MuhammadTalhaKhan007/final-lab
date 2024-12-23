@@ -67,6 +67,10 @@ function RootLayoutNav() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="Auth/login" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="StartScreen/getStarted"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </AppProvider>
     </ThemeProvider>
